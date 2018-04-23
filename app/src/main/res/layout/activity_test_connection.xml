@@ -60,7 +60,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="6"
-            android:text="Connect" />
+            android:text="Connect"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:background="@color/colorAccent"
+            android:layout_margin="5dp"/>
 
         <Button
             android:id="@+id/btnDisconnect"
@@ -68,7 +72,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:layout_gravity="right"
-            android:text="Disconnect" />
+            android:text="Disconnect"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:background="@color/colorAccent"
+            android:layout_margin="5dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -89,7 +97,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:text="Subscribe" />
+            android:text="Subscribe"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:background="@color/colorAccent"
+            android:layout_margin="5dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -159,7 +171,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:text="Publish" />
+        android:text="Publish"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:background="@color/colorAccent"
+        android:layout_margin="5dp"/>
 
 </LinearLayout>
 

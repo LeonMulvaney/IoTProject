@@ -25,4 +25,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, TestConnection.class);
         startActivity(intent);
     }
+
+    public void viewSystemStatus(View view){
+        Intent intent = new Intent(this,SystemStatus.class);
+        startActivity(intent);
+    }
 }

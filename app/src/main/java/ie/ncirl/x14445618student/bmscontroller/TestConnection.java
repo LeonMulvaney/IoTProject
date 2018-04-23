@@ -85,7 +85,9 @@ public class TestConnection extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_connection);
         txtSubcribe = (EditText) findViewById(R.id.txtSubcribe);
+        txtSubcribe.setText("leonspi/temphumid");
         txtTopic = (EditText) findViewById(R.id.txtTopic);
+        txtTopic.setText("leonspi/temphumid");
         txtMessage = (EditText) findViewById(R.id.txtMessage);
 
         tvLastMessage = (TextView) findViewById(R.id.tvLastMessage);
@@ -316,7 +318,7 @@ public class TestConnection extends AppCompatActivity {
             final String msg = txtMessage.getText().toString();
             JSONObject data = new JSONObject();
             try{
-                data.put("temperature",msg);
+                data.put("temperatureStatus",msg);
             }
             catch (JSONException e) {
                 e.printStackTrace();

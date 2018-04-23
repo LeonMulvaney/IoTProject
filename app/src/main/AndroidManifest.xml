@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ControlPanel" />
-        <activity android:name=".TestConnection"></activity>
+        <activity android:name=".TestConnection" />
+        <activity android:name=".SystemStatus"></activity>
     </application>
 
 </manifest>

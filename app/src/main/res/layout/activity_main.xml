@@ -133,7 +133,8 @@
                 android:layout_marginRight="30dp"
                 android:layout_marginLeft="30dp"
                 android:adjustViewBounds="true"
-                android:scaleType="fitCenter" />
+                android:scaleType="fitCenter"
+                android:onClick="viewSystemStatus"/>
 
         </LinearLayout>
 
