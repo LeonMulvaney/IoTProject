@@ -6,8 +6,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.mobileconnectors.iot.AWSIotKeystoreHelper;
@@ -21,6 +25,9 @@ import com.amazonaws.services.iot.AWSIotClient;
 import com.amazonaws.services.iot.model.AttachPrincipalPolicyRequest;
 import com.amazonaws.services.iot.model.CreateKeysAndCertificateRequest;
 import com.amazonaws.services.iot.model.CreateKeysAndCertificateResult;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.security.KeyStore;
 import java.util.UUID;
@@ -60,12 +67,27 @@ public class ControlPanel extends AppCompatActivity {
 
     CognitoCachingCredentialsProvider credentialsProvider;
 
-    //Declare Views
-    ImageButton btnConnect;
-    ImageButton btnDisconnect;
+    //Declare Views & Variables
+
+    String automaticControlCircuit;
+    int sampleInterval =5;
+    String heatingCircuit;
+    String coolingCircuit;
+    String lightingCicruit;
+
+    ImageButton connectBtn;
+    ImageButton disconnectBtn;
 
     TextView tvClientId;
     TextView tvStatus;
+
+    EditText topicEt;
+    EditText messageEt;
+    EditText sampleIntervalEt;;
+
+    //Automatic Control Switch and Associated Views
+    Switch automateSwitch;
+    TextView automateStatusTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +95,23 @@ public class ControlPanel extends AppCompatActivity {
         setContentView(R.layout.activity_control_panel);
 
         //Target Views
-        btnConnect = findViewById(R.id.btnConnect);
-        tvClientId = findViewById(R.id.tvClientId);
-        tvStatus = findViewById(R.id.tvStatus);
+        connectBtn = findViewById(R.id.connectBtn);
+        disconnectBtn = findViewById(R.id.disconnectBtn);
+
+        tvClientId = findViewById(R.id.clientIdTv);
+        tvStatus = findViewById(R.id.statusTv);
+
+        topicEt = findViewById(R.id.topicEt);
+        topicEt.setText("leonspi/temphumid");
+        messageEt = findViewById(R.id.messageEt);
+
+        //Automatic Control Switch and Associated Views
+        automateSwitch = findViewById(R.id.automateSwitch);
+        sampleIntervalEt = findViewById(R.id.sampleIntervalEt);
+        sampleIntervalEt.setText("5");
+        automateStatusTv = findViewById(R.id.automateStatusTv);
+
+
 
 
         // MQTT client IDs are required to be unique per AWS IoT account.
@@ -125,7 +161,7 @@ public class ControlPanel extends AppCompatActivity {
                     // load keystore from file into memory to pass on connection
                     clientKeyStore = AWSIotKeystoreHelper.getIotKeystore(certificateId,
                             keystorePath, keystoreName, keystorePassword);
-                    btnConnect.setEnabled(true);
+                    connectBtn.setEnabled(true);
                 } else {
                     Log.i(LOG_TAG, "Key/cert " + certificateId + " not found in keystore.");
                 }
@@ -184,7 +220,7 @@ public class ControlPanel extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                btnConnect.setEnabled(true);
+                                connectBtn.setEnabled(true);
                             }
                         });
                     } catch (Exception e) {
@@ -195,7 +231,31 @@ public class ControlPanel extends AppCompatActivity {
                 }
             }).start();
         }
-    } //End of OnCreate
+
+        //Target Switch and Listen for changes
+        automateSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // Parse String from EditText to Int Resolving Issues From: https://stackoverflow.com/questions/2709253/converting-a-string-to-an-integer-on-android
+                try{
+                    sampleInterval = Integer.parseInt(sampleIntervalEt.getText().toString());
+                }
+                catch(NumberFormatException nfe) {
+                    System.out.println(nfe);
+                };
+
+                if(isChecked ==true){
+                    automaticControlCircuit = "true"; //Set Automatic Control Circuit to True
+                    automateStatusTv.setText("System Automation: ON");
+
+                }
+                else{
+                    automaticControlCircuit = "false";//Turn Sensor Off
+                    automateStatusTv.setText("System Automation: OFF");
+                }
+            }
+        });
+
+    } //End of OnCreate -------------------------------------
 
 
     //Method run when the connect button is clicked - Changed from source code to suit project
@@ -219,6 +279,8 @@ public class ControlPanel extends AppCompatActivity {
                                 tvStatus.setText("Connected");
                                 //Set text color programatically From: https://stackoverflow.com/questions/8472349/how-to-set-text-color-to-a-text-view-programmatically
                                 tvStatus.setTextColor(Color.parseColor("#008000"));
+                                Toast.makeText(getApplicationContext(),"Successfully Connected to AWS IoT",Toast.LENGTH_LONG).show();
+
 
                             } else if (status == AWSIotMqttClientStatus.Reconnecting) {
                                 if (throwable != null) {
@@ -247,11 +309,41 @@ public class ControlPanel extends AppCompatActivity {
 
     }
 
+    //Disconnect Method
     public void disconnect(View view){
         try {
             mqttManager.disconnect();
+            Toast.makeText(getApplicationContext(),"Successfully Disconnected to AWS IoT",Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             Log.e(LOG_TAG, "Disconnect error.", e);
+        }
+    }
+
+
+    //Publish data via MQTT to Message Broker (AWS IoT)
+    public void publish(View view){
+        final String topic = topicEt.getText().toString();
+
+        //Parse data as JSON Object
+        JSONObject data = new JSONObject();
+        try{
+            data.put("automaticControlCircuit",automaticControlCircuit);
+            data.put("sampleInterval",sampleInterval);
+            data.put("heatingCircuit","False");
+            data.put("coolingCircuit","False");
+            data.put("lightingCircuit","False");
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            mqttManager.publishString(data.toString(), topic, AWSIotMqttQos.QOS0);
+            Toast.makeText(getApplicationContext(),"Successfully Published to Broker: \n" + data.toString(),Toast.LENGTH_LONG).show();
+
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "Publish error.", e);
+            Toast.makeText(this,"Publish error : " + e.toString(),Toast.LENGTH_LONG).show();
         }
     }
 }

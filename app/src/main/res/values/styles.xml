@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="SwitchCompatTheme">
+        <!-- Switch Design From: https://medium.com/@elye.project/customizing-switch-using-xml-ca0d37204a86 -->
+        <item name="colorControlActivated">#008000</item>
+    </style>
+
 </resources>
