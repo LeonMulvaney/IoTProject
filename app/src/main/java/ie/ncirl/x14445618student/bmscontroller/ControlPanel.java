@@ -233,7 +233,7 @@ public class ControlPanel extends AppCompatActivity {
                                 tvStatus.setTextColor(Color.parseColor("#8B0000"));
                             } else {
                                 tvStatus.setText("Disconnected");
-                                
+
 
                             }
                         }
@@ -242,7 +242,7 @@ public class ControlPanel extends AppCompatActivity {
             });
         } catch (final Exception e) {
             Log.e(LOG_TAG, "Connection error.", e);
-            tvStatus.setText("Error! " + e.getMessage());
+            tvStatus.setText("Error!  " + e.getMessage());
         }
 
     }
