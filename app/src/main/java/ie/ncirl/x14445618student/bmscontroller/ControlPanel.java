@@ -70,11 +70,14 @@ public class ControlPanel extends AppCompatActivity {
 
     //Declare Views & Variables
 
-    String automaticControlCircuit;
+    //Set Sample Interval default to 5 seconds
     int sampleInterval =5;
-    String heatingCircuit;
-    String coolingCircuit;
-    String lightingCicruit;
+
+    //Set Circuits to False as Default
+    String automaticControlCircuit = "False";
+    String heatingCircuit = "False";
+    String coolingCircuit = "False";
+    String lightingCircuit = "False";
 
     TextView tvClientId;
     TextView tvStatus;
@@ -85,6 +88,18 @@ public class ControlPanel extends AppCompatActivity {
     //Automatic Control Switch and Associated Views
     Switch automateSwitch;
     TextView automateStatusTv;
+
+    //Heating Control Switch and Associated Views
+    Switch heatingSwitch;
+    TextView heatingStatusTv;
+
+    //Cooling Control Switch and Associated Views
+    Switch coolingSwitch;
+    TextView coolingStatusTv;
+
+    //Lighting Control Switch and Associated Views
+    Switch lightingSwitch;
+    TextView lightingStatusTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,15 +113,29 @@ public class ControlPanel extends AppCompatActivity {
         tvClientId = findViewById(R.id.clientIdTv);
         tvStatus = findViewById(R.id.statusTv);
 
+        //Set MQTT Topic in the OnCreate method
         topicEt = findViewById(R.id.topicEt);
         topicEt.setText("leonspi/temphumid");
 
-        //Automatic Control Switch and Associated Views
-        automateSwitch = findViewById(R.id.automateSwitch);
+        //Sample Interval
         sampleIntervalEt = findViewById(R.id.sampleIntervalEt);
         sampleIntervalEt.setText("5");
+
+        //Automatic Control Switch and Associated Views
+        automateSwitch = findViewById(R.id.automateSwitch);
         automateStatusTv = findViewById(R.id.automateStatusTv);
 
+        //Heating  Switch and Associated Views
+        heatingSwitch = findViewById(R.id.heatingSwitch);
+        heatingStatusTv = findViewById(R.id.heatingStatusTv);
+
+        //Cooling Switch and Associated Views
+        coolingSwitch = findViewById(R.id.coolingSwitch);
+        coolingStatusTv = findViewById(R.id.coolingStatusTv);
+
+        //Lighting Switch and Associated Views
+        lightingSwitch = findViewById(R.id.lightingSwitch);
+        lightingStatusTv = findViewById(R.id.lightingStatusTv);
 
 
 
@@ -226,7 +255,7 @@ public class ControlPanel extends AppCompatActivity {
             }).start();
         }
 
-        //Target Switch and Listen for changes
+        //Target Automatic Control Switch and Listen for changes
         automateSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 try{
@@ -239,6 +268,10 @@ public class ControlPanel extends AppCompatActivity {
                     automaticControlCircuit = "true"; //Set Automatic Control Circuit to True
                     automateStatusTv.setText("System Automation: ON");
 
+                    //Heating or Cooling Circuits cannot be Manually Overridden if System is in Automation Mode, set both to False
+                    heatingSwitch.setChecked(false);
+                    coolingSwitch.setChecked(false);
+
                 }
                 else{
                     automaticControlCircuit = "false";//Turn Sensor Off
@@ -247,6 +280,80 @@ public class ControlPanel extends AppCompatActivity {
             }
         });
 
+        //Target Heating Circuit Switch and Listen for changes
+        heatingSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                try{
+                }
+                catch(NumberFormatException nfe) {
+                    System.out.println(nfe);
+                };
+
+                if(isChecked ==true){
+                    heatingCircuit = "true"; //Set Heating Circuit to True
+                    heatingStatusTv.setText("Heating Circuit: ON");
+
+                    //Automatic or Cooling Circuits cannot be running if Heating is Manually Overridden, set both to False
+                    automateSwitch.setChecked(false);
+                    coolingSwitch.setChecked(false);
+
+                }
+                else{
+                    heatingCircuit = "false";//Set Heating Circuit to False
+                    heatingStatusTv.setText("Heating Circuit: OFF");
+                }
+            }
+        });
+
+        //Target Cooling Circuit Switch and Listen for changes
+        coolingSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                try{
+                }
+                catch(NumberFormatException nfe) {
+                    System.out.println(nfe);
+                };
+
+                if(isChecked ==true){
+                    coolingCircuit = "true"; //Set Cooling Circuit to True
+                    coolingStatusTv.setText("Cooling Circuit: ON");
+
+                    //Automatic or Heating Circuits cannot be running if Cooling is Manually Overridden, set both to False
+                    automateSwitch.setChecked(false);
+                    heatingSwitch.setChecked(false);
+
+                }
+                else{
+                    coolingCircuit = "false";//Set Cooling Circuit to True
+                    coolingStatusTv.setText("Cooling Circuit: OFF");
+                }
+            }
+        });
+
+        //Target Cooling Circuit Switch and Listen for changes
+        lightingSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                try{
+                }
+                catch(NumberFormatException nfe) {
+                    System.out.println(nfe);
+                };
+
+                if(isChecked ==true){
+                    lightingCircuit = "true"; //Set Lighting Circuit to True
+                    lightingStatusTv.setText("Lighting Circuit: ON");
+
+                    //Lighting Circuit Does not Affect the Automatic, Heaing or Cooling Circuits
+
+                }
+                else{
+                    lightingCircuit = "false";//Set Lighting Circuit to True
+                    lightingStatusTv.setText("Lighting Circuit: OFF");
+                }
+            }
+        });
+
+        //Automatically Call connect method - Thus, negating the need for a button to do so
         connect();
 
     } //End of OnCreate -------------------------------------
@@ -334,11 +441,11 @@ public class ControlPanel extends AppCompatActivity {
         //Parse data as JSON Object
         JSONObject data = new JSONObject();
         try{
-            data.put("automaticControlCircuit",automaticControlCircuit);
             data.put("sampleInterval",sampleInterval);
-            data.put("heatingCircuit","False");
-            data.put("coolingCircuit","False");
-            data.put("lightingCircuit","False");
+            data.put("automaticControlCircuit",automaticControlCircuit);
+            data.put("heatingCircuit",heatingCircuit);
+            data.put("coolingCircuit",coolingCircuit);
+            data.put("lightingCircuit",lightingCircuit);
         }
         catch (JSONException e) {
             e.printStackTrace();

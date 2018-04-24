@@ -7,48 +7,120 @@
     tools:context="ie.ncirl.x14445618student.bmscontroller.SystemStatus"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="20dp"
-        android:text="Last Updated:"
-        android:textAlignment="center" />
 
-    <TextView
-        android:id="@+id/lastUpdatedTv"
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="2018"
-        android:textColor="@color/colorAccent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="275dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/logo"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Building Managment System \n Current Status"
+        android:textColor="@color/colorPrimary"
         android:textAlignment="center"
-        android:layout_marginBottom="15dp"/>
+        android:textStyle="bold"/>
 
-    <TextView
+    <android.support.v7.widget.CardView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Temperature:"
-        android:textAlignment="center"/>
+        app:cardCornerRadius="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_margin="10dp">
 
-    <TextView
-        android:id="@+id/temperatureTv"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="21 C"
-        android:textColor="@color/colorAccent"
-        android:textAlignment="center"
-        android:layout_marginBottom="15dp"/>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:textAlignment="center">
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Humidity:"
-        android:textAlignment="center"/>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp">
 
-    <TextView
-        android:id="@+id/humidityTv"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="40 %"
-        android:textColor="@color/colorAccent"
-        android:textAlignment="center"/>
+                <TextView
+                    android:id="@+id/lastUpdatedTv"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="23-04-2018 @ 21:55:30"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="15dp"/>
+
+                <TextView
+                    android:id="@+id/temperatureTv"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="21"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="22dp"/>
+
+                <TextView
+                    android:id="@+id/humidityTv"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="37"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="22dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Last Updated"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimary"/>
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Temperature"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimary"/>
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Humidity"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimary"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>
