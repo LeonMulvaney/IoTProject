@@ -21,6 +21,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void viewSystemHistory(View view){
+        Intent intent = new Intent(this,SystemHistory.class);
+        startActivity(intent);
+    }
+
     public void viewTestConnection(View view){
         Intent intent = new Intent(this, TestConnection.class);
         startActivity(intent);
@@ -30,4 +35,5 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this,SystemStatus.class);
         startActivity(intent);
     }
+
 }

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
@@ -63,10 +64,10 @@ public class TestConnection extends AppCompatActivity {
     TextView tvClientId;
     TextView tvStatus;
 
-    Button btnConnect;
+    ImageButton btnConnect;
     Button btnSubscribe;
     Button btnPublish;
-    Button btnDisconnect;
+    ImageButton btnDisconnect;
 
     AWSIotClient mIotAndroidClient;
     AWSIotMqttManager mqttManager;
@@ -84,6 +85,10 @@ public class TestConnection extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_connection);
+        setTitle("AWS IoT Connection Test");
+        //Add Back Button to Action Bar - From https://stackoverflow.com/questions/12070744/add-back-button-to-action-bar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         txtSubcribe = (EditText) findViewById(R.id.txtSubcribe);
         txtSubcribe.setText("leonspi/temphumid");
         txtTopic = (EditText) findViewById(R.id.txtTopic);
@@ -94,7 +99,7 @@ public class TestConnection extends AppCompatActivity {
         tvClientId = (TextView) findViewById(R.id.tvClientId);
         tvStatus = (TextView) findViewById(R.id.tvStatus);
 
-        btnConnect = (Button) findViewById(R.id.btnConnect);
+        btnConnect =  findViewById(R.id.btnConnect);
         btnConnect.setOnClickListener(connectClick);
         btnConnect.setEnabled(false);
 
@@ -104,7 +109,7 @@ public class TestConnection extends AppCompatActivity {
         btnPublish = (Button) findViewById(R.id.btnPublish);
         btnPublish.setOnClickListener(publishClick);
 
-        btnDisconnect = (Button) findViewById(R.id.btnDisconnect);
+        btnDisconnect =  findViewById(R.id.btnDisconnect);
         btnDisconnect.setOnClickListener(disconnectClick);
 
         // MQTT client IDs are required to be unique per AWS IoT account.
@@ -224,6 +229,13 @@ public class TestConnection extends AppCompatActivity {
                 }
             }).start();
         }
+    } //End of OnCreate
+
+    //Function to return to home when back button is pressed From --> Same link as "Add Back Button" above
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
     }
 
     View.OnClickListener connectClick = new View.OnClickListener() {
@@ -318,7 +330,7 @@ public class TestConnection extends AppCompatActivity {
             final String msg = txtMessage.getText().toString();
             JSONObject data = new JSONObject();
             try{
-                data.put("temperatureStatus",msg);
+                data.put("message",msg);
             }
             catch (JSONException e) {
                 e.printStackTrace();

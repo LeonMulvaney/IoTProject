@@ -28,6 +28,9 @@ public class SystemStatus extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_system_status);
+        setTitle("System Status");
+        //Add Back Button to Action Bar - From https://stackoverflow.com/questions/12070744/add-back-button-to-action-bar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //Firebase
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -39,6 +42,13 @@ public class SystemStatus extends AppCompatActivity {
         humidityTv = findViewById(R.id.humidityTv);
 
         getValues();
+    }//End of OnCreate
+
+    //Function to return to home when back button is pressed From --> Same link as "Add Back Button" above
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
     }
 
     public void getValues() {

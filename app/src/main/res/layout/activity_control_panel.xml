@@ -8,241 +8,339 @@
     android:orientation="vertical"
     android:padding="5dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:gravity="center_vertical"
-            android:text="Client Id:" />
-
-        <TextView
-            android:id="@+id/clientIdTv"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="5"
-            android:gravity="center_vertical" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:gravity="center_vertical"
-            android:text="Status:" />
-
-        <TextView
-            android:id="@+id/statusTv"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="5"
-            android:gravity="center_vertical"
-            android:text="Disconnected"
-            android:textStyle="bold"/>
-    </LinearLayout>
-
-
-    <LinearLayout
+    <android.support.v7.widget.CardView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp">
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_gravity="center">
-
-            <ImageButton
-                android:id="@+id/connectBtn"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/connect"
-                android:background="@android:color/transparent"
-                android:layout_weight="1"
-                android:layout_marginRight="30dp"
-                android:layout_marginLeft="30dp"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:onClick="connect"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <ImageButton
-                android:id="@+id/disconnectBtn"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/disconnect"
-                android:background="@android:color/transparent"
-                android:layout_weight="1"
-                android:layout_marginRight="30dp"
-                android:layout_marginLeft="30dp"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:onClick="disconnect"/>
-
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="5dp">
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:text="Connect"
-            android:layout_weight="1"
-            android:textAlignment="center"/>
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:text="Disconnect"
-            android:layout_weight="1"
-            android:textAlignment="center"/>
-
-
-    </LinearLayout>
-
-    <!--Start of Control Views -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:gravity="center_vertical"
-            android:text="Topic:" />
-
-        <EditText
-            android:id="@+id/topicEt"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="5"
-            android:gravity="center_vertical" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="40dp"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp">
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="Message:" />
-
-        <EditText
-            android:id="@+id/messageEt"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical" />
-    </LinearLayout>
-
-
-    <!-- Sampling Rate Linear Layout -->
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="Sampling Rate:" />
-
-        <EditText
-            android:id="@+id/sampleIntervalEt"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-    </LinearLayout>
-    <!-- End of Sampling Rate Linear Layout -->
-
-    <!-- Start of Automation Switch Layout -->
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="75dp"
-        android:layout_marginTop="15dp"
-        android:orientation="horizontal"
+        app:cardCornerRadius="5dp"
         android:layout_margin="5dp">
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:gravity="center">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp">
 
-            <Switch
-                android:id="@+id/automateSwitch"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="Automatic \n Control"
-                android:textOff="Off"
-                android:textOn="On"
-                android:theme="@style/SwitchCompatTheme">
-            </Switch>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
 
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center_vertical"
+                    android:text="Client Id:" />
+
+                <TextView
+                    android:id="@+id/clientIdTv"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:gravity="center_vertical" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center_vertical"
+                    android:text="Status:" />
+
+                <TextView
+                    android:id="@+id/statusTv"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:gravity="center_vertical"
+                    android:text="Disconnected"
+                    android:textStyle="bold"/>
+            </LinearLayout>
         </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="5dp"
+        android:layout_margin="5dp">
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:layout_margin="5dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp">
 
-            <TextView
-                android:id="@+id/automateStatusTv"
-                android:layout_width="fill_parent"
+            <!--Start of Control Views -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:layout_gravity="center_vertical" />
+                android:orientation="horizontal" >
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center_vertical"
+                    android:text="Topic:" />
+
+                <EditText
+                    android:id="@+id/topicEt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:gravity="center_vertical" />
+            </LinearLayout>
+
+            <!-- Sampling Rate Linear Layout -->
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="Sampling Rate: \n (Min 5 Sec)" />
+
+                <EditText
+                    android:id="@+id/sampleIntervalEt"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:inputType="number"/>
+            </LinearLayout>
+            <!-- End of Sampling Rate Linear Layout -->
         </LinearLayout>
-    </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="5dp"
+        android:layout_margin="5dp">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Start of Automation Switch Layout -->
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="75dp"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal"
+                android:layout_margin="5dp">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                        <Switch
+                    android:id="@+id/automateSwitch"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Automatic \n Control"
+                    android:textOff="Off"
+                    android:textOn="On"
+                    android:theme="@style/SwitchCompatTheme">
+                </Switch>
+
+                </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_margin="5dp">
+
+                <TextView
+                    android:id="@+id/automateStatusTv"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:layout_gravity="center_vertical" />
+
+                </LinearLayout>
+            </LinearLayout>
     <!-- End of Automated Switch Layout -->
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
 
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="20dp"
         android:text="System Override"
-        android:textStyle="bold"
+
         android:textColor="@color/darkRed"
         android:textAlignment="center"
         android:layout_marginTop="5dp"/>
 
+    <android.support.v7.widget.CardView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="5dp"
+        android:layout_margin="5dp">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Start of Heating Switch Layout -->
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal"
+                android:layout_margin="5dp">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <Switch
+                        android:id="@+id/heatingSwitch"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Heating \n Circuit"
+                        android:textOff="Off"
+                        android:textOn="On"
+                        android:theme="@style/SwitchCompatTheme">
+                    </Switch>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_margin="5dp">
+
+                    <TextView
+                        android:id="@+id/heatingStatusTv"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:layout_gravity="center_vertical" />
+
+                </LinearLayout>
+            </LinearLayout>
+            <!-- End of Heating Switch Layout -->
+
+            <!-- Start of Cooling Switch Layout -->
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal"
+                android:layout_margin="5dp">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <Switch
+                        android:id="@+id/coolingSwitch"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Cooling \n Circuit"
+                        android:textOff="Off"
+                        android:textOn="On"
+                        android:theme="@style/SwitchCompatTheme">
+                    </Switch>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_margin="5dp">
+
+                    <TextView
+                        android:id="@+id/coolingStatusTv"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:layout_gravity="center_vertical" />
+
+                </LinearLayout>
+            </LinearLayout>
+            <!-- End of Cooling Switch Layout -->
+
+            <!-- Start of Lighting Switch Layout -->
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal"
+                android:layout_margin="5dp">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <Switch
+                        android:id="@+id/lightingSwitch"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Lighting \n Circuit"
+                        android:textOff="Off"
+                        android:textOn="On"
+                        android:theme="@style/SwitchCompatTheme">
+                    </Switch>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_margin="5dp">
+
+                    <TextView
+                        android:id="@+id/lightingStatusTv"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:layout_gravity="center_vertical" />
+
+                </LinearLayout>
+            </LinearLayout>
+            <!-- End of Lighting Switch Layout -->
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
 
     <Button
         android:id="@+id/publishBtn"

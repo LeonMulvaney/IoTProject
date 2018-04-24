@@ -20,7 +20,8 @@
         </activity>
         <activity android:name=".ControlPanel" />
         <activity android:name=".TestConnection" />
-        <activity android:name=".SystemStatus"></activity>
+        <activity android:name=".SystemStatus" />
+        <activity android:name=".SystemHistory"></activity>
     </application>
 
 </manifest>

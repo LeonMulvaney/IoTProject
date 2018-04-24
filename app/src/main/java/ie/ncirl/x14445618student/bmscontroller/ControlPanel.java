@@ -1,6 +1,7 @@
 package ie.ncirl.x14445618student.bmscontroller;
 
 import android.graphics.Color;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -75,14 +76,10 @@ public class ControlPanel extends AppCompatActivity {
     String coolingCircuit;
     String lightingCicruit;
 
-    ImageButton connectBtn;
-    ImageButton disconnectBtn;
-
     TextView tvClientId;
     TextView tvStatus;
 
     EditText topicEt;
-    EditText messageEt;
     EditText sampleIntervalEt;;
 
     //Automatic Control Switch and Associated Views
@@ -93,17 +90,16 @@ public class ControlPanel extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control_panel);
+        setTitle("Control Panel");
+        //Add Back Button to Action Bar - From https://stackoverflow.com/questions/12070744/add-back-button-to-action-bar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //Target Views
-        connectBtn = findViewById(R.id.connectBtn);
-        disconnectBtn = findViewById(R.id.disconnectBtn);
-
         tvClientId = findViewById(R.id.clientIdTv);
         tvStatus = findViewById(R.id.statusTv);
 
         topicEt = findViewById(R.id.topicEt);
         topicEt.setText("leonspi/temphumid");
-        messageEt = findViewById(R.id.messageEt);
 
         //Automatic Control Switch and Associated Views
         automateSwitch = findViewById(R.id.automateSwitch);
@@ -161,7 +157,6 @@ public class ControlPanel extends AppCompatActivity {
                     // load keystore from file into memory to pass on connection
                     clientKeyStore = AWSIotKeystoreHelper.getIotKeystore(certificateId,
                             keystorePath, keystoreName, keystorePassword);
-                    connectBtn.setEnabled(true);
                 } else {
                     Log.i(LOG_TAG, "Key/cert " + certificateId + " not found in keystore.");
                 }
@@ -220,7 +215,6 @@ public class ControlPanel extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                connectBtn.setEnabled(true);
                             }
                         });
                     } catch (Exception e) {
@@ -235,9 +229,7 @@ public class ControlPanel extends AppCompatActivity {
         //Target Switch and Listen for changes
         automateSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // Parse String from EditText to Int Resolving Issues From: https://stackoverflow.com/questions/2709253/converting-a-string-to-an-integer-on-android
                 try{
-                    sampleInterval = Integer.parseInt(sampleIntervalEt.getText().toString());
                 }
                 catch(NumberFormatException nfe) {
                     System.out.println(nfe);
@@ -255,11 +247,19 @@ public class ControlPanel extends AppCompatActivity {
             }
         });
 
+        connect();
+
     } //End of OnCreate -------------------------------------
 
+    //Function to return to home when back button is pressed From --> Same link as "Add Back Button" above
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
+    }
 
     //Method run when the connect button is clicked - Changed from source code to suit project
-    public void connect(View view){
+    public void connect(){
         Log.d(LOG_TAG, "clientId = " + clientId);
 
         try {
@@ -323,6 +323,13 @@ public class ControlPanel extends AppCompatActivity {
     //Publish data via MQTT to Message Broker (AWS IoT)
     public void publish(View view){
         final String topic = topicEt.getText().toString();
+        sampleInterval = Integer.parseInt(sampleIntervalEt.getText().toString());
+
+        //Counteract Unrealistic Sampling Intervals - If lower than 5, Default to 5 Seconds
+        if(sampleInterval<5){
+            Toast.makeText(getApplicationContext(),"Sampling Rate too low - Defaulting to 5 Seconds...",Toast.LENGTH_SHORT).show();
+            sampleInterval =5;
+        }
 
         //Parse data as JSON Object
         JSONObject data = new JSONObject();
