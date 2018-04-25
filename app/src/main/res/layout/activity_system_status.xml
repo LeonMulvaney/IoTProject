@@ -15,7 +15,7 @@
 
         <ImageView
             android:layout_width="275dp"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:layout_gravity="center"
             android:src="@drawable/logo"/>
     </LinearLayout>
@@ -146,5 +146,24 @@
         </LinearLayout>
 
     </android.support.v7.widget.CardView>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="MCB Panel Graphic"
+        android:textColor="@color/colorPrimary"
+        android:textAlignment="center"
+        android:textStyle="bold"/>
+
+    <ImageView
+        android:id="@+id/panelImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter" />
+
+
 
 </LinearLayout>

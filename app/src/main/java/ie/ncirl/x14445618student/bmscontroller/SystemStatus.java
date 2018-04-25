@@ -2,6 +2,7 @@ package ie.ncirl.x14445618student.bmscontroller;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -26,6 +27,8 @@ public class SystemStatus extends AppCompatActivity {
     String humidity;
     String status;
 
+    ImageView panelImg;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +46,9 @@ public class SystemStatus extends AppCompatActivity {
         temperatureTv = findViewById(R.id.temperatureTv);
         humidityTv = findViewById(R.id.humidityTv);
         statusTv = findViewById(R.id.statusTv);
+        panelImg = findViewById(R.id.panelImg);
+
+
 
         getValues();
     }//End of OnCreate
@@ -70,6 +76,19 @@ public class SystemStatus extends AppCompatActivity {
                 temperatureTv.setText(temperature);
                 humidityTv.setText(humidity);
                 statusTv.setText(status);
+
+                //Android Programatically Set Image Resource From : https://stackoverflow.com/questions/2974862/changing-imageview-source
+                //Check if the status contains heating, cooling or other, if so change the images to parallel the mcb panel - Images created using https://www.draw.io/
+                if(status.toLowerCase().contains("heating")){
+                    panelImg.setImageResource(R.drawable.heatingimg);
+                }
+                else if(status.toLowerCase().contains("cooling")){
+                    panelImg.setImageResource(R.drawable.coolingimg);
+                }
+
+                else{
+                    panelImg.setImageResource(R.drawable.nocircuitimg);
+                }
 
             }
 
