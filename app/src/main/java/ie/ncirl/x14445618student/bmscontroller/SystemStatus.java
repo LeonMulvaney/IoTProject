@@ -19,10 +19,12 @@ public class SystemStatus extends AppCompatActivity {
     TextView lastUpdatedTv;
     TextView temperatureTv;
     TextView humidityTv;
+    TextView statusTv;
 
     String last_update;
     String temperature;
     String humidity;
+    String status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class SystemStatus extends AppCompatActivity {
         lastUpdatedTv = findViewById(R.id.lastUpdatedTv);
         temperatureTv = findViewById(R.id.temperatureTv);
         humidityTv = findViewById(R.id.humidityTv);
+        statusTv = findViewById(R.id.statusTv);
 
         getValues();
     }//End of OnCreate
@@ -61,10 +64,12 @@ public class SystemStatus extends AppCompatActivity {
                      last_update = ds.child("last_updated").getValue().toString();
                      temperature = ds.child("temperature").getValue().toString() + " °C";
                      humidity = ds.child("humidity").getValue().toString() + " %";
+                     status = ds.child("status").getValue().toString();
                 }
                 lastUpdatedTv.setText(last_update);
                 temperatureTv.setText(temperature);
                 humidityTv.setText(humidity);
+                statusTv.setText(status);
 
             }
 
