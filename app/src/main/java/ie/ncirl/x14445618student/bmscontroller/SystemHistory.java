@@ -91,8 +91,9 @@ public class SystemHistory extends AppCompatActivity {
                     //Parse Variables to Model, then save model to the ArrayList of Objects
                     SystemHistoryReading reading = new SystemHistoryReading(date,time,temperature,humidity,status);
                     readingsList.add(reading); //Add Reading Object to the ArrayList of Objects
-                    Collections.reverse(readingsList); //Flip Order of ArrayList From: https://stackoverflow.com/questions/10766492/what-is-the-simplest-way-to-reverse-an-arraylist
+                     //Flip Order of ArrayList From: https://stackoverflow.com/questions/10766492/what-is-the-simplest-way-to-reverse-an-arraylist
                 }
+                Collections.reverse(readingsList);
                 systemHistoryLv.setAdapter(adapter);//Once the ArrayList has finished populating, call the custom Adapter and Parse to the ListView in the Activity
 
 
