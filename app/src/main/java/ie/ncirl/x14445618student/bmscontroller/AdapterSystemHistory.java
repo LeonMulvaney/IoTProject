@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+//Android Custom ListView From: http://abhiandroid.com/ui/baseadapter-tutorial-example.html
 import java.util.ArrayList;
 
 /**
@@ -46,7 +47,7 @@ public class AdapterSystemHistory extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         view = inflter.inflate(R.layout.adapter_system_history_layout, null);
 
-        // Lookup view for data population
+        //Target Views for data population
         ImageView readingImg = view.findViewById(R.id.readingImg);
         TextView date = view.findViewById(R.id.dateTv);
         TextView time = view.findViewById(R.id.timeTv);
@@ -55,7 +56,7 @@ public class AdapterSystemHistory extends BaseAdapter {
         TextView status = view.findViewById(R.id.statusTv);
 
 
-        // Populate the data into the template view using the data object
+        // Populate the data from the ArrayList passed from the getValues() Method in the SystemHistory Class
         date.setText(readingsList.get(i).getDate());
         time.setText(readingsList.get(i).getTime());
         temp.setText(readingsList.get(i).getTemperature());
@@ -63,6 +64,7 @@ public class AdapterSystemHistory extends BaseAdapter {
         status.setText(readingsList.get(i).getStatus());
 
 
+        //If the system status contains a specific value, act accordingly (i.e. if the String contains "heating", then set the imageView to display the sun...)
         if(readingsList.get(i).getStatus().contains("Heating")){
             readingImg.setImageResource(R.drawable.heating);
         }
@@ -75,6 +77,6 @@ public class AdapterSystemHistory extends BaseAdapter {
             readingImg.setImageResource(R.drawable.deadband);
         }
 
-        return view;
+        return view;//Return view object to the SystemHistory class so it can be displayed
     }
 }

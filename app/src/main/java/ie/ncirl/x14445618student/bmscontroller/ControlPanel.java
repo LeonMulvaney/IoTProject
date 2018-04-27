@@ -19,6 +19,7 @@ import com.amazonaws.mobileconnectors.iot.AWSIotKeystoreHelper;
 import com.amazonaws.mobileconnectors.iot.AWSIotMqttClientStatusCallback;
 import com.amazonaws.mobileconnectors.iot.AWSIotMqttLastWillAndTestament;
 import com.amazonaws.mobileconnectors.iot.AWSIotMqttManager;
+import com.amazonaws.mobileconnectors.iot.AWSIotMqttNewMessageCallback;
 import com.amazonaws.mobileconnectors.iot.AWSIotMqttQos;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
@@ -26,11 +27,18 @@ import com.amazonaws.services.iot.AWSIotClient;
 import com.amazonaws.services.iot.model.AttachPrincipalPolicyRequest;
 import com.amazonaws.services.iot.model.CreateKeysAndCertificateRequest;
 import com.amazonaws.services.iot.model.CreateKeysAndCertificateResult;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.security.KeyStore;
+import java.util.Collections;
 import java.util.UUID;
 
 import static ie.ncirl.x14445618student.bmscontroller.TestConnection.LOG_TAG;
@@ -101,6 +109,11 @@ public class ControlPanel extends AppCompatActivity {
     Switch lightingSwitch;
     TextView lightingStatusTv;
 
+    //Firebase
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+    DatabaseReference currentRoomConditionRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,6 +150,10 @@ public class ControlPanel extends AppCompatActivity {
         lightingSwitch = findViewById(R.id.lightingSwitch);
         lightingStatusTv = findViewById(R.id.lightingStatusTv);
 
+        //Firebase Declarations
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReferenceFromUrl("https://bmscontroller-bd5b4.firebaseio.com/");
+        currentRoomConditionRef = databaseReference.child("currentRoomCondition");
 
 
         // MQTT client IDs are required to be unique per AWS IoT account.
@@ -355,6 +372,7 @@ public class ControlPanel extends AppCompatActivity {
 
         //Automatically Call connect method - Thus, negating the need for a button to do so
         connect();
+        updateSwitches(); //Call the updateSwitches Method at the end of onCreate which grabs the current status value from Firebase, then uses this value to place switches in respective positions
 
     } //End of OnCreate -------------------------------------
 
@@ -416,7 +434,7 @@ public class ControlPanel extends AppCompatActivity {
 
     }
 
-    //Disconnect Method
+    //Disconnect Method - Not Used
     public void disconnect(View view){
         try {
             mqttManager.disconnect();
@@ -438,7 +456,7 @@ public class ControlPanel extends AppCompatActivity {
             sampleInterval =5;
         }
 
-        //Parse data as JSON Object
+        //Parse data as JSON Object before sending to Broker
         JSONObject data = new JSONObject();
         try{
             data.put("sampleInterval",sampleInterval);
@@ -459,5 +477,63 @@ public class ControlPanel extends AppCompatActivity {
             Log.e(LOG_TAG, "Publish error.", e);
             Toast.makeText(this,"Publish error : " + e.toString(),Toast.LENGTH_LONG).show();
         }
+    }
+
+
+//This method uses the "status" variable which is sent from the Pi to Firebase to move the switches to their respective positions when the Activity is Closed and Reopened when the BMS system is running
+    public void updateSwitches() {
+        //Get Data From Firebase From: https://firebase.google.com/docs/database/android/read-and-write
+        currentRoomConditionRef.addListenerForSingleValueEvent(new ValueEventListener() { //Use a Single Event Listener so it can place the Switches in the correct positions when the Activity is closed and then reopened
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    String status = ds.child("status").getValue().toString();
+
+                    if(status.equals("BMS IDLE")){
+                        automateSwitch.setChecked(false);
+                        heatingSwitch.setChecked(false);
+                        coolingSwitch.setChecked(false);
+
+                    }
+                    else if(status.equals("Heating Circuit Running (Manual Override)")){
+                        automateSwitch.setChecked(false);
+                        heatingSwitch.setChecked(true);
+                        coolingSwitch.setChecked(false);
+
+                    }
+
+                    else if(status.equals("Cooling Circuit Running (Manual Override)")){
+                        automateSwitch.setChecked(false);
+                        heatingSwitch.setChecked(false);
+                        coolingSwitch.setChecked(true);
+
+                    }
+
+                    else if(status.equals("Automatic Control Active - Heating Operational")){
+                        automateSwitch.setChecked(true);
+                        heatingSwitch.setChecked(false);
+                        coolingSwitch.setChecked(false);
+                    }
+
+                    else if(status.equals("Automatic Control Active - Cooling Operational")){
+                        automateSwitch.setChecked(true);
+                        heatingSwitch.setChecked(false);
+                        coolingSwitch.setChecked(false);
+                    }
+
+                    else if(status.equals("Automatic Control Active - DEAD BAND")){
+                        automateSwitch.setChecked(true);
+                        heatingSwitch.setChecked(false);
+                        coolingSwitch.setChecked(false);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }
