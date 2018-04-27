@@ -2,8 +2,36 @@ package ie.ncirl.x14445618student.bmscontroller;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class SystemHistory extends AppCompatActivity {
+
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+    DatabaseReference currentRoomConditionRef;
+
+    String date;
+    String time;
+    String temperature;
+    String humidity;
+    String status;
+
+    ListView systemHistoryLv;
+
+    // Android Populating ListView using ArrayAdapter From: https://stackoverflow.com/questions/5070830/populating-a-listview-using-an-arraylist
+    AdapterSystemHistory adapter;
+
+    //Declare Arraylist of Object type SystemHistoryReading to store readings pulled from Firebase
+    ArrayList<SystemHistoryReading> readingsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -12,6 +40,20 @@ public class SystemHistory extends AppCompatActivity {
         setTitle("System History");
         //Add Back Button to Action Bar - From https://stackoverflow.com/questions/12070744/add-back-button-to-action-bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //Firebase
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReferenceFromUrl("https://bmscontroller-bd5b4.firebaseio.com/");
+        currentRoomConditionRef = databaseReference.child("systemHistory");
+
+        //Create new list of objects when onCreate method is ran, then pass the list to the custom adapter
+        readingsList = new ArrayList<>();
+        adapter = new AdapterSystemHistory(this,readingsList);
+
+        //Target listview in Activity via id
+        systemHistoryLv = findViewById(R.id.systemHistoryLv);
+
+        getValues();
     } //End of OnCreate
 
     //Function to return to home when back button is pressed From --> Same link as "Add Back Button" above
@@ -21,5 +63,34 @@ public class SystemHistory extends AppCompatActivity {
         return true;
     }
 
+    public void getValues() {
+//Get Data From Firebase From: https://firebase.google.com/docs/database/android/read-and-write
+        currentRoomConditionRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                //Loop through the snapshot of DB from Firebase - Saving values to Variables
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    date = ds.child("date").getValue().toString();
+                    time = ds.child("time").getValue().toString();
+                    temperature = ds.child("temperature").getValue().toString() + " °C";
+                    humidity = ds.child("humidity").getValue().toString() + " %";
+                    status = ds.child("status").getValue().toString();
+
+                    //Parse Variables to Model, then save model to the ArrayList of Objects
+                    SystemHistoryReading reading = new SystemHistoryReading(date,time,temperature,humidity,status);
+                    readingsList.add(reading);
+                }
+                systemHistoryLv.setAdapter(adapter);
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 
 }
