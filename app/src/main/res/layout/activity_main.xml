@@ -51,17 +51,17 @@
             android:layout_weight="1">
 
             <ImageButton
-                android:id="@+id/historyHomeBtn"
+                android:id="@+id/statusHomeBtn"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:src="@drawable/history"
+                android:src="@drawable/coffee"
                 android:background="@android:color/transparent"
                 android:layout_weight="1"
                 android:layout_marginRight="30dp"
                 android:layout_marginLeft="30dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:onClick="viewSystemHistory"/>
+                android:onClick="viewSystemStatus"/>
 
         </LinearLayout>
 
@@ -84,7 +84,7 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:text="System History"
+            android:text="System Status"
             android:layout_weight="1"
             android:textAlignment="center"/>
 
@@ -104,6 +104,26 @@
             android:layout_gravity="center">
 
             <ImageButton
+                android:id="@+id/historyHomeBtn"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/history"
+                android:background="@android:color/transparent"
+                android:layout_weight="1"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="30dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:onClick="viewSystemHistory"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageButton
                 android:id="@+id/connectionHomeBtn"
                 android:layout_width="75dp"
                 android:layout_height="75dp"
@@ -115,25 +135,6 @@
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 android:onClick="viewTestConnection"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <ImageButton
-                android:id="@+id/statusHomeBtn"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:src="@drawable/coffee"
-                android:background="@android:color/transparent"
-                android:layout_weight="1"
-                android:layout_marginRight="30dp"
-                android:layout_marginLeft="30dp"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:onClick="viewSystemStatus"/>
 
         </LinearLayout>
 
@@ -149,14 +150,14 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:text="Test Connection"
+            android:text="System History"
             android:layout_weight="1"
             android:textAlignment="center" />
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:text="System Status"
+            android:text="Test Connection"
             android:layout_weight="1"
             android:textAlignment="center"/>
 

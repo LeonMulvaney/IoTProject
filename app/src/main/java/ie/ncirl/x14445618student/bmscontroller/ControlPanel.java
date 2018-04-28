@@ -128,7 +128,7 @@ public class ControlPanel extends AppCompatActivity {
 
         //Set MQTT Topic in the OnCreate method
         topicEt = findViewById(R.id.topicEt);
-        topicEt.setText("leonspi/temphumid");
+        topicEt.setText("leonspi/controlPanel");
 
         //Sample Interval
         sampleIntervalEt = findViewById(R.id.sampleIntervalEt);
@@ -489,7 +489,17 @@ public class ControlPanel extends AppCompatActivity {
 
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     String status = ds.child("status").getValue().toString();
+                    String lightStatus = ds.child("light_status").getValue().toString();
 
+                    //Light Switch
+                    if(lightStatus.equals("Lighting On")){
+                        lightingSwitch.setChecked(true);
+                    }
+                    else{
+                        lightingSwitch.setChecked(false);
+                    }
+
+                    //Heating, Cooling and Automatic Control Switches
                     if(status.equals("BMS IDLE")){
                         automateSwitch.setChecked(false);
                         heatingSwitch.setChecked(false);
