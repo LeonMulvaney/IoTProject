@@ -13,9 +13,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle("Dashboard");
+        setTitle("Dashboard"); //Programmatically Set ActionBar Title
     }
 
+    //Load Activities on Button Click
     public void viewControlPanel(View view){
         Intent intent = new Intent(this,ControlPanel.class);
         startActivity(intent);

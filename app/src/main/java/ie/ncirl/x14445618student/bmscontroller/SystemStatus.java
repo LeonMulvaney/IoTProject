@@ -37,7 +37,7 @@ public class SystemStatus extends AppCompatActivity {
         //Add Back Button to Action Bar - From https://stackoverflow.com/questions/12070744/add-back-button-to-action-bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //Firebase
+        //Firebase - Declare Paths and Tables to Target
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReferenceFromUrl("https://bmscontroller-bd5b4.firebaseio.com/");
         currentRoomConditionRef = databaseReference.child("currentRoomCondition");

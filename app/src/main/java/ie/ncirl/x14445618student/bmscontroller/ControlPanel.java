@@ -347,7 +347,7 @@ public class ControlPanel extends AppCompatActivity {
             }
         });
 
-        //Target Cooling Circuit Switch and Listen for changes
+        //Target Lighting Circuit Switch and Listen for changes
         lightingSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 try{
